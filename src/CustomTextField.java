@@ -4,9 +4,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 public class CustomTextField extends JTextField {
-    CustomTextField(String text,int columns){
-        super(text,columns);
-        setAlignmentX(0.5f);
+    CustomTextField(String text){
+        super(text);
+//        setAlignmentX(0.775f);
         setMaximumSize(new Dimension(400,20));
         addFocusListener(new FocusListener() {
             @Override
@@ -18,7 +18,9 @@ public class CustomTextField extends JTextField {
 
             @Override
             public void focusLost(FocusEvent e) {
-
+                if(getText().equals("")){
+                    setText(text);
+                }
             }
         });
     }
