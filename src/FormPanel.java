@@ -2,7 +2,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+import com.google.gson.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 
 public class FormPanel extends JPanel implements ActionListener {
 
@@ -47,10 +46,8 @@ public class FormPanel extends JPanel implements ActionListener {
         boxLay = new BoxLayout(centralPanel, BoxLayout.Y_AXIS);
         centralPanel.setLayout(boxLay);
 
-
         test = createText("Imię",centralPanel);
         test1 = createText("Nazwisko",centralPanel);
-
 
         submitButton = new CustomButton("SUBMIT");
         submitButton.setAlignmentX(0.5f);
@@ -71,10 +68,10 @@ public class FormPanel extends JPanel implements ActionListener {
         if (container != null && container.getLayout() instanceof CardLayout) {
             CardLayout cardLayout = (CardLayout) container.getLayout();
             cardLayout.show(container, "mainPage");
-//            formOptions.put("Imie",test2.getText());
-//            System.out.println(formOptions);
         }
+        User user = new User(test.getText(), test1.getText());
         appendToJson(test.getText(), test1.getText());
+
     }
 
     public void appendToJson(String imie, String nazwisko) {
@@ -85,8 +82,7 @@ public class FormPanel extends JPanel implements ActionListener {
         JSONArray usersList = new JSONArray();
 
         try {
-            // Read existing data from the file if it exists
-            FileReader fileReader = new FileReader("UsersData.json");
+            FileReader fileReader = new FileReader("userData\\UsersData.json");
             JSONParser jsonParser = new JSONParser();
             Object obj = jsonParser.parse(fileReader);
             if (obj != null) {
@@ -97,18 +93,23 @@ public class FormPanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
 
-        // Append new user data to the existing list
-        usersList.add(userData);
+        JSONObject userWrapper = new JSONObject();
+        int userNumber = usersList.size() + 1;
+        String userKey = "User" + userNumber;
+        userWrapper.put(userKey, userData);
 
-        // Write the updated list to the file
-        try (FileWriter file = new FileWriter("UsersData.json", false)) {
-            // We can write any JSONArray or JSONObject instance to the file
-            file.write(usersList.toJSONString());
+        usersList.add(userWrapper);
+
+        // write the updated list to the file
+        try (FileWriter file = new FileWriter("userData\\UsersData.json", false)) {
+            //using gson for pretty print in json
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonOutput = gson.toJson(usersList);
+            file.write(jsonOutput);
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 }
