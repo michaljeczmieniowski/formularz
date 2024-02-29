@@ -1,0 +1,20 @@
+[
+  {
+    "User1": {
+      "Imię": "ziomek",
+      "Nazwisko": "ziomeczkowy"
+    }
+  },
+  {
+    "User2": {
+      "Imię": "robo",
+      "Nazwisko": "kasia"
+    }
+  },
+  {
+    "User3": {
+      "Imię": "grzehu",
+      "Nazwisko": "papiez"
+    }
+  }
+]
