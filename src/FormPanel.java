@@ -23,6 +23,10 @@ public class FormPanel extends JPanel implements ActionListener {
     CustomTextField test;
     CustomTextField test1;
     CustomTextField test2;
+    CustomTextField test3;
+    CustomTextField test4;
+    CustomTextField test5;
+    String[] genders = {"Mężczyzna", "Kobieta", "Wolę nie podawać"};
 
     FormPanel() {
         setLayout(new BorderLayout());
@@ -50,12 +54,18 @@ public class FormPanel extends JPanel implements ActionListener {
         centralPanel.setLayout(boxLay);
 
         centralPanel.add(Box.createVerticalStrut(20));
-//        centralPanel.add(new JLabel("Imię"));
         test = createText("Imię",centralPanel);
         test1 = createText("Nazwisko",centralPanel);
         test2 = createText("PESEL",centralPanel);
 
-        genderList = new JComboBox();
+        genderList = new JComboBox(genders);
+        genderList.setMaximumSize(new Dimension(400,20));
+        centralPanel.add(genderList);
+
+        centralPanel.add(Box.createVerticalStrut(20));
+        test3 = createText("Data urodzenia",centralPanel);
+        test4 = createText("E-mail",centralPanel);
+        test5 = createText("Nr telefonu",centralPanel);
 
         submitButton = new CustomButton("SUBMIT");
         submitButton.setAlignmentX(0.5f);
@@ -80,6 +90,7 @@ public class FormPanel extends JPanel implements ActionListener {
 //            System.out.println(formOptions);
         }
         appendToJson(test.getText(), test1.getText());
+
     }
 
     public void appendToJson(String imie, String nazwisko) {

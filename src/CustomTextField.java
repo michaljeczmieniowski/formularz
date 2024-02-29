@@ -24,12 +24,13 @@ public class CustomTextField extends JTextField {
                 }
                 switch (text){
                     case "Imię","Nazwisko":
-                        if (getText().matches("[a-zA-Z]+")){
+                        if (getText().matches("[A-ZŁŚŻ][a-ząćęłńóśźż]+")){
                             setForeground(Color.BLACK);
                         }
                         else{
                             setForeground(Color.RED);
                         }
+                        break;
                     case "PESEL":
                         if (getText().matches("\\d+") & getText().length()==11){
                             setForeground(Color.BLACK);
@@ -37,11 +38,32 @@ public class CustomTextField extends JTextField {
                         else {
                             setForeground(Color.RED);
                         }
+                        break;
+                    case "E-mail":
+                        if(getText().matches(".+@(o2\\.pl|pw\\.edu\\.pl|wp\\.pl|yahoo\\.com|gmail\\.com)")){
+                            setForeground(Color.BLACK);
+                        }
+                        else {
+                            setForeground(Color.RED);
+                        }
+                        break;
+                    case "Nr telefonu":
+                        if (getText().matches("\\d+") & getText().length()==9){
+                            setForeground(Color.BLACK);
+                        }
+                        else {
+                            setForeground(Color.RED);
+                        }
+                        break;
+                    case "Data urodzenia":
+                        if (getText().matches("\\d{4}-\\d{2}-\\d{2}")){
+                            setForeground(Color.BLACK);
+                        }
+                        else {
+                            setForeground(Color.RED);
+                        }
+                        break;
                 }
-//                else if (getText().matches("[a-zA-Z]+")){
-//                    System.out.println("dobrze");
-//                }
-
             }
         });
     }
