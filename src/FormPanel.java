@@ -1,8 +1,15 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class FormPanel extends JPanel implements ActionListener {
 
@@ -17,19 +24,7 @@ public class FormPanel extends JPanel implements ActionListener {
     CustomTextField test1;
     CustomTextField test2;
 
-//    static HashMap<String,String> formOptions = new HashMap<>();
-//
-//    static {
-//        formOptions.put("Imię","");
-//        formOptions.put("Nazwisko","");
-//        formOptions.put("PESEL","");
-//        formOptions.put("Płeć","");
-//        formOptions.put("Data urodzenia","");
-//        formOptions.put("Nr telefonu","");
-//    }
-
     FormPanel() {
-
         setLayout(new BorderLayout());
 
         centralPanel = new JPanel();
@@ -46,10 +41,10 @@ public class FormPanel extends JPanel implements ActionListener {
         rightPanel.setPreferredSize(new Dimension(100,600));
         bottomPanel.setPreferredSize(new Dimension(800,35));
 
-        add(centralPanel,BorderLayout.CENTER);
-        add(leftPanel,BorderLayout.WEST);
-        add(rightPanel,BorderLayout.EAST);
-        add(bottomPanel,BorderLayout.SOUTH);
+        add(centralPanel, BorderLayout.CENTER);
+        add(leftPanel, BorderLayout.WEST);
+        add(rightPanel, BorderLayout.EAST);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         boxLay = new BoxLayout(centralPanel, BoxLayout.Y_AXIS);
         centralPanel.setLayout(boxLay);
@@ -81,7 +76,44 @@ public class FormPanel extends JPanel implements ActionListener {
         if (container != null && container.getLayout() instanceof CardLayout) {
             CardLayout cardLayout = (CardLayout) container.getLayout();
             cardLayout.show(container, "mainPage");
+//            formOptions.put("Imie",test2.getText());
+//            System.out.println(formOptions);
+        }
+        appendToJson(test.getText(), test1.getText());
+    }
 
+    public void appendToJson(String imie, String nazwisko) {
+        JSONObject userData = new JSONObject();
+        userData.put("Imię", imie);
+        userData.put("Nazwisko", nazwisko);
+
+        JSONArray usersList = new JSONArray();
+
+        try {
+            // Read existing data from the file if it exists
+            FileReader fileReader = new FileReader("UsersData.json");
+            JSONParser jsonParser = new JSONParser();
+            Object obj = jsonParser.parse(fileReader);
+            if (obj != null) {
+                usersList = (JSONArray) obj;
+            }
+            fileReader.close();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Append new user data to the existing list
+        usersList.add(userData);
+
+        // Write the updated list to the file
+        try (FileWriter file = new FileWriter("UsersData.json", false)) {
+            // We can write any JSONArray or JSONObject instance to the file
+            file.write(usersList.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+
 }
