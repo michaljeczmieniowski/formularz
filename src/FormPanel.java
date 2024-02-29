@@ -2,17 +2,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class FormPanel extends JPanel implements ActionListener {
 
     BoxLayout boxLay;
-    CustomTextField textField1;
-    CustomTextField textField2;
     CustomButton submitButton;
     JPanel centralPanel;
     JPanel leftPanel;
     JPanel rightPanel;
     JPanel bottomPanel;
+    JComboBox genderList;
+    CustomTextField test;
+    CustomTextField test1;
+    CustomTextField test2;
+
+//    static HashMap<String,String> formOptions = new HashMap<>();
+//
+//    static {
+//        formOptions.put("Imię","");
+//        formOptions.put("Nazwisko","");
+//        formOptions.put("PESEL","");
+//        formOptions.put("Płeć","");
+//        formOptions.put("Data urodzenia","");
+//        formOptions.put("Nr telefonu","");
+//    }
 
     FormPanel() {
 
@@ -23,8 +37,8 @@ public class FormPanel extends JPanel implements ActionListener {
         rightPanel = new JPanel();
         bottomPanel = new JPanel();
 
-        bottomPanel.setBackground(Color.BLACK);
-        centralPanel.setBackground(new Color(0,56,212));
+        bottomPanel.setBackground(new Color(0xF7A543));
+        centralPanel.setBackground(new Color(0xDC946E));
         leftPanel.setBackground(Color.CYAN);
 
         centralPanel.setPreferredSize(new Dimension(600,600));
@@ -40,21 +54,25 @@ public class FormPanel extends JPanel implements ActionListener {
         boxLay = new BoxLayout(centralPanel, BoxLayout.Y_AXIS);
         centralPanel.setLayout(boxLay);
 
-        String test = createText("Imię",centralPanel);
-        String test1 = createText("Nazwisko",centralPanel);
+        centralPanel.add(Box.createVerticalStrut(20));
+//        centralPanel.add(new JLabel("Imię"));
+        test = createText("Imię",centralPanel);
+        test1 = createText("Nazwisko",centralPanel);
+        test2 = createText("PESEL",centralPanel);
 
-        centralPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        genderList = new JComboBox();
+
         submitButton = new CustomButton("SUBMIT");
         submitButton.setAlignmentX(0.5f);
         bottomPanel.add(submitButton);
         submitButton.addActionListener(this);
     }
 
-    private String createText(String text, JPanel jPanel){
+    private CustomTextField createText(String text, JPanel jPanel){
         CustomTextField textField = new CustomTextField(text);
         jPanel.add(textField);
         jPanel.add(Box.createVerticalStrut(20));
-        return text;
+        return textField;
     }
 
     @Override
@@ -63,6 +81,7 @@ public class FormPanel extends JPanel implements ActionListener {
         if (container != null && container.getLayout() instanceof CardLayout) {
             CardLayout cardLayout = (CardLayout) container.getLayout();
             cardLayout.show(container, "mainPage");
+
         }
     }
 }
