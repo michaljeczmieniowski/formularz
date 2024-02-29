@@ -1,8 +1,10 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import com.google.gson.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 
 public class FormPanel extends JPanel implements ActionListener {
 
@@ -19,8 +22,10 @@ public class FormPanel extends JPanel implements ActionListener {
     JPanel leftPanel;
     JPanel rightPanel;
     JPanel bottomPanel;
+    JComboBox genderList;
     CustomTextField test;
     CustomTextField test1;
+    CustomTextField test2;
 
     FormPanel() {
         setLayout(new BorderLayout());
@@ -30,8 +35,9 @@ public class FormPanel extends JPanel implements ActionListener {
         rightPanel = new JPanel();
         bottomPanel = new JPanel();
 
-        bottomPanel.setBackground(Color.BLACK);
-        centralPanel.setBackground(new Color(0,56,212));
+        bottomPanel.setBackground(new Color(0xF7A543));
+        centralPanel.setBackground(new Color(0xDC946E));
+        leftPanel.setBackground(Color.CYAN);
 
         centralPanel.setPreferredSize(new Dimension(600,600));
         leftPanel.setPreferredSize(new Dimension(100,600));
@@ -46,8 +52,12 @@ public class FormPanel extends JPanel implements ActionListener {
         boxLay = new BoxLayout(centralPanel, BoxLayout.Y_AXIS);
         centralPanel.setLayout(boxLay);
 
+        centralPanel.add(Box.createVerticalStrut(20));
+//        centralPanel.add(new JLabel("Imię"));
         test = createText("Imię",centralPanel);
         test1 = createText("Nazwisko",centralPanel);
+
+        genderList = new JComboBox();
 
         submitButton = new CustomButton("SUBMIT");
         submitButton.setAlignmentX(0.5f);
@@ -71,7 +81,6 @@ public class FormPanel extends JPanel implements ActionListener {
         }
         User user = new User(test.getText(), test1.getText());
         appendToJson(test.getText(), test1.getText());
-
     }
 
     public void appendToJson(String imie, String nazwisko) {
@@ -111,5 +120,6 @@ public class FormPanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
     }
+
 
 }
