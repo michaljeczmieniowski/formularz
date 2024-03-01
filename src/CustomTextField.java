@@ -2,12 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CustomTextField extends JTextField {
     CustomTextField(String text){
         super(text);
         setAlignmentX(0.5f);
         setMaximumSize(new Dimension(400,20));
+
         addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -20,7 +24,6 @@ public class CustomTextField extends JTextField {
             public void focusLost(FocusEvent e) {
                 if(getText().equals("")){
                     setText(text);
-                    setForeground(Color.BLACK);
                 }
                 switch (text){
                     case "Imię","Nazwisko":
@@ -56,15 +59,24 @@ public class CustomTextField extends JTextField {
                         }
                         break;
                     case "Data urodzenia":
-                        if (getText().matches("\\d{4}-\\d{2}-\\d{2}")){
+                        if (isValidDate(getText())) {
                             setForeground(Color.BLACK);
-                        }
-                        else {
+                        } else {
                             setForeground(Color.RED);
                         }
                         break;
                 }
             }
         });
+    }
+    private boolean isValidDate(String inputDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+        try {
+            Date parsedDate = sdf.parse(inputDate);
+            return parsedDate != null;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
