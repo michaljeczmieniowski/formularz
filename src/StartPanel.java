@@ -17,20 +17,12 @@ public class StartPanel extends JPanel implements ActionListener {
         boxLay = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxLay);
 
-        //label for image TRZEBA WYCENTROWAC, KOLOR MUSI byc jak tlo na zdjeciu
-        // nie wiem czy te zdejcie czy jakies inne jak chcecie ICONIFY stronka cos wybrac
-        // customButton trzeba zrobic ladniejszy zeby wszystkie colorki ze soba pasowaly
-        // no i ten srodkowy areatrest ma kolor rozowy tylko po to by widac jego granice, trzeba jakos to uporzadkowac
-
         BufferedImage userLOGO = ImageIO.read(new File("resources\\user.png"));
         Image newImage = userLOGO.getScaledInstance(200, 200, Image.SCALE_DEFAULT);
 
         ImageIcon logoIcon = new ImageIcon(newImage);
 
         logoLabel = new JLabel(logoIcon);
-
-
-
 
         // info about joining
         welcomeInfo = new JTextArea("Witaj! \nJeśli chcesz wypełnić formularz swoimi danymi, kliknij przycisk Register");
@@ -48,8 +40,6 @@ public class StartPanel extends JPanel implements ActionListener {
         add(cb);
 
     }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
