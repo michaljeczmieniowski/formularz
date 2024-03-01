@@ -116,7 +116,7 @@ public class FormPanel extends JPanel implements ActionListener {
         }
         User user = new User(name.getText(), surname.getText());
         appendToJson(name.getText(), surname.getText());
-
+        System.out.println(PESEL.getClass());
     }
 
     public void appendToJson(String imie, String nazwisko) {
