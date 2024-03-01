@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class CustomFrame extends JFrame {
     CardLayout cards;
-    StartPanel mainPage;
+    StartingPanel mainPage;
     FormPanel formPage;
 
     CustomFrame() throws IOException {
@@ -13,11 +13,10 @@ public class CustomFrame extends JFrame {
         setTitle("FORMULARZ");
         setResizable(false);
         setVisible(true);
-
         cards = new CardLayout();
         setLayout(cards);
 
-        mainPage = new StartPanel();
+        mainPage = new StartingPanel();
         formPage = new FormPanel();
 
         add(mainPage, "mainPage");

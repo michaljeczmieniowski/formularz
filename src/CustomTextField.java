@@ -26,16 +26,30 @@ public class CustomTextField extends JTextField {
                     setText(text);
                 }
                 switch (text){
-                    case "Imię","Nazwisko":
+                    case "Imię":
                         if (getText().matches("[A-ZŁŚŻ][a-ząćęłńóśźż]+")){
                             setForeground(Color.BLACK);
+                        }
+                        else if (getText().matches("[a-złśż][a-ząćęłńóśźż]+")){
+                            setText(getText().substring(0,1).toUpperCase() + getText().substring(1));
+                        }
+                        else{
+                            setForeground(Color.RED);
+                        }
+                        break;
+                    case "Nazwisko":
+                        if (getText().matches("[A-ZŁŚŻŹĆÓ][a-ząćęłńóśźż]+")){
+                            setForeground(Color.BLACK);
+                        }
+                        else if (getText().matches("[a-złśżźćó][a-ząćęłńóśźż]+")){
+                            setText(getText().substring(0,1).toUpperCase() + getText().substring(1));
                         }
                         else{
                             setForeground(Color.RED);
                         }
                         break;
                     case "PESEL":
-                        if (getText().matches("\\d+") & getText().length()==11){
+                        if (getText().matches("\\d+") & getText().length()==11 & checkPESEL(getText())){
                             setForeground(Color.BLACK);
                         }
                         else {
@@ -69,6 +83,7 @@ public class CustomTextField extends JTextField {
             }
         });
     }
+
     private boolean isValidDate(String inputDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(false);
@@ -78,5 +93,14 @@ public class CustomTextField extends JTextField {
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    private boolean checkPESEL(String PESEL){
+        int[] PESELnumbers = {1,3,7,9,1,3,7,9,1,3};
+        int sum = 0;
+        for(int i = 0; i < PESEL.length()-1; i++){
+            sum += (PESELnumbers[i] * Character.getNumericValue(PESEL.charAt(i)));
+        }
+        return true;
     }
 }
