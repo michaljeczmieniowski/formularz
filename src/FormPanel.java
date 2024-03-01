@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class FormPanel extends JPanel implements ActionListener {
 
     BoxLayout boxLay;
@@ -22,13 +21,15 @@ public class FormPanel extends JPanel implements ActionListener {
     JPanel leftPanel;
     JPanel rightPanel;
     JPanel bottomPanel;
+    JPanel textPanel;
+    JLabel textLabel;
     JComboBox genderList;
-    CustomTextField test;
-    CustomTextField test1;
-    CustomTextField test2;
-    CustomTextField test3;
-    CustomTextField test4;
-    CustomTextField test5;
+    CustomTextField name;
+    CustomTextField surname;
+    CustomTextField PESEL;
+    CustomTextField birthDate;
+    CustomTextField email;
+    CustomTextField phoneNumber;
     String[] genders = {"Mężczyzna", "Kobieta", "Wolę nie podawać"};
 
     FormPanel() {
@@ -57,17 +58,28 @@ public class FormPanel extends JPanel implements ActionListener {
         centralPanel.setLayout(boxLay);
 
         centralPanel.add(Box.createVerticalStrut(20));
-        test = createText("Imię",centralPanel);
-        test1 = createText("Nazwisko",centralPanel);
+        name = createText("Imię",centralPanel);
+        surname = createText("Nazwisko",centralPanel);
+        PESEL = createText("PESEL",centralPanel);
+
+        textPanel = new JPanel();
+        textLabel = new JLabel("Płeć");
+        textPanel.setAlignmentX(0.5f);
+        textPanel.setMaximumSize(new Dimension(400,20));
+        centralPanel.add(Box.createVerticalStrut(5));
+        textPanel.setBackground(Color.PINK);
+        textPanel.setOpaque(true);
+        centralPanel.add(textPanel);
+        textPanel.add(textLabel);
 
         genderList = new JComboBox(genders);
         genderList.setMaximumSize(new Dimension(400,20));
         centralPanel.add(genderList);
 
         centralPanel.add(Box.createVerticalStrut(20));
-        test3 = createText("Data urodzenia",centralPanel);
-        test4 = createText("E-mail",centralPanel);
-        test5 = createText("Nr telefonu",centralPanel);
+        birthDate = createText("Data urodzenia",centralPanel);
+        email = createText("E-mail",centralPanel);
+        phoneNumber = createText("Nr telefonu",centralPanel);
 
         submitButton = new CustomButton("SUBMIT");
         submitButton.setAlignmentX(0.5f);
@@ -77,6 +89,19 @@ public class FormPanel extends JPanel implements ActionListener {
 
     private CustomTextField createText(String text, JPanel jPanel){
         CustomTextField textField = new CustomTextField(text);
+        JPanel textPanel = new JPanel();
+        JLabel textLabel = new JLabel(text);
+        if(text.equals("Data urodzenia")){
+            textLabel.setText(text+" (rok-miesiąc-dzień)");
+        }
+        textPanel.setAlignmentX(0.5f);
+        textPanel.setMaximumSize(new Dimension(400,20));
+        jPanel.add(Box.createVerticalStrut(5));
+        textPanel.setBackground(Color.PINK);
+        textPanel.setOpaque(true);
+
+        jPanel.add(textPanel);
+        textPanel.add(textLabel);
         jPanel.add(textField);
         jPanel.add(Box.createVerticalStrut(20));
         return textField;
@@ -89,8 +114,8 @@ public class FormPanel extends JPanel implements ActionListener {
             CardLayout cardLayout = (CardLayout) container.getLayout();
             cardLayout.show(container, "mainPage");
         }
-        User user = new User(test.getText(), test1.getText());
-        appendToJson(test.getText(), test1.getText());
+        User user = new User(name.getText(), surname.getText());
+        appendToJson(name.getText(), surname.getText());
 
     }
 
@@ -131,6 +156,4 @@ public class FormPanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
     }
-
-
 }
