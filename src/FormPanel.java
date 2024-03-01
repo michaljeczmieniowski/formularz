@@ -91,7 +91,7 @@ public class FormPanel extends JPanel implements ActionListener {
         JPanel textPanel = new JPanel();
         JLabel textLabel = new JLabel(text);
         if(text.equals("Data urodzenia")){
-            textLabel.setText(text+" (rok-miesiąc-dzień)");
+            textLabel.setText(text+" (rrrr-mm-dd)");
         }
         textPanel.setAlignmentX(0.5f);
         textPanel.setMaximumSize(new Dimension(400,20));
@@ -109,12 +109,26 @@ public class FormPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Container container = SwingUtilities.getAncestorOfClass(Container.class, this);
-        if (container != null && container.getLayout() instanceof CardLayout) {
+
+        if (isBirthMatchingPESEL(birthDate.getText(), PESEL.getText()) &&
+                container != null && container.getLayout() instanceof CardLayout &&
+                name.hasCorrectInput() && surname.hasCorrectInput() && PESEL.hasCorrectInput() &&
+                birthDate.hasCorrectInput() && email.hasCorrectInput() && phoneNumber.hasCorrectInput()){
+            JOptionPane.showMessageDialog(null, "Pomyślnie zarejestrowano!", "Rejestracja zatwierdzona", JOptionPane.INFORMATION_MESSAGE);
             CardLayout cardLayout = (CardLayout) container.getLayout();
             cardLayout.show(container, "mainPage");
+            User user = new User(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
+            appendToJson(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
         }
-        User user = new User(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
-        appendToJson(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
+
+        else if (!isBirthMatchingPESEL(birthDate.getText(), PESEL.getText())){
+            JOptionPane.showMessageDialog(null, "Data urodzenia nie zgadza się z numerem PESEL!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
+        }
+
+        else {
+            JOptionPane.showMessageDialog(null, "Niektóre pola zostały błędnie uzupełnione!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     public void appendToJson(String imie, String nazwisko, long PESEL, String dataUrodzenia, String email, int nrTelefonu, String plec) {
@@ -148,9 +162,7 @@ public class FormPanel extends JPanel implements ActionListener {
 
         usersList.add(userWrapper);
 
-        // write the updated list to the file
         try (FileWriter file = new FileWriter("userData\\UsersData.json", false)) {
-            //using gson for pretty print in json
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonOutput = gson.toJson(usersList);
             file.write(jsonOutput);
@@ -158,5 +170,22 @@ public class FormPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isBirthMatchingPESEL(String birthDate, String PESEL){
+        String firstDigitOfYear = birthDate.substring(0,1);
+        switch (firstDigitOfYear){
+            case "1":
+                if (birthDate.substring(5,7).equals(PESEL.substring(2,4)) & birthDate.substring(8).equals(PESEL.substring(4,6))) {
+                    return true;
+                }
+                break;
+            case "2":
+                int monthDigits = Integer.parseInt(birthDate.substring(5,7)) + 20;
+                if (String.valueOf(monthDigits).equals(PESEL.substring(2,4)) & birthDate.substring(8).equals(PESEL.substring(4,6))) {
+                    return true;
+                }
+        }
+        return false;
     }
 }
