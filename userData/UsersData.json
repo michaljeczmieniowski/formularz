@@ -1,20 +1,13 @@
 [
   {
     "User1": {
-      "Imię": "ziomek",
-      "Nazwisko": "ziomeczkowy"
-    }
-  },
-  {
-    "User2": {
-      "Imię": "robo",
-      "Nazwisko": "kasia"
-    }
-  },
-  {
-    "User3": {
-      "Imię": "grzehu",
-      "Nazwisko": "papiez"
+      "PESEL": 12345678910,
+      "Imię": "Ziomek",
+      "Adres e-mail": "ziomek@o2.pl",
+      "Numer telefonu": 123456789,
+      "Nazwisko": "Ziomeczkowy",
+      "Data urodzenia": "2000-12-30",
+      "Płeć": "Mężczyzna"
     }
   }
 ]

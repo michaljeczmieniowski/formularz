@@ -4,7 +4,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -114,15 +113,19 @@ public class FormPanel extends JPanel implements ActionListener {
             CardLayout cardLayout = (CardLayout) container.getLayout();
             cardLayout.show(container, "mainPage");
         }
-        User user = new User(name.getText(), surname.getText());
-        appendToJson(name.getText(), surname.getText());
-
+        User user = new User(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
+        appendToJson(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
     }
 
-    public void appendToJson(String imie, String nazwisko) {
+    public void appendToJson(String imie, String nazwisko, long PESEL, String dataUrodzenia, String email, int nrTelefonu, String plec) {
         JSONObject userData = new JSONObject();
         userData.put("Imię", imie);
         userData.put("Nazwisko", nazwisko);
+        userData.put("PESEL", PESEL);
+        userData.put("Płeć", plec);
+        userData.put("Data urodzenia", dataUrodzenia);
+        userData.put("Adres e-mail", email);
+        userData.put("Numer telefonu", nrTelefonu);
 
         JSONArray usersList = new JSONArray();
 
