@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
 public class CustomButton extends JButton implements ActionListener{
-    private Color color1 = Color.decode("#4CA1AF");
-    private Color color2 = Color.decode("#2C3E50");
+    private Color color1 = Color.decode("#ff7e5f");
+    private Color color2 = Color.decode("#feb47b");
     private final Timer timer;
     private float alpha=0.3f;
     private boolean mouseOver;
@@ -81,6 +81,8 @@ public class CustomButton extends JButton implements ActionListener{
         int height=getHeight();
         GradientPaint gradient = new GradientPaint(0,0,Color.WHITE, 0, height, new Color(255,255,255,60));
         g2.setPaint(gradient);
+//        Color shadowColor = new Color(0, 0, 0, 50); // Adjust the alpha value as needed
+//        g2.setColor(shadowColor);
         Path2D.Float f = new Path2D.Float();
         f.moveTo(0,0);
         int controll = height + height/2;

@@ -11,8 +11,10 @@ public class CustomFrame extends JFrame {
         setSize(800,700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("FORMULARZ");
+        setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+        setIconImage(new ImageIcon("resources\\logo.png").getImage());
         cards = new CardLayout();
         setLayout(cards);
 

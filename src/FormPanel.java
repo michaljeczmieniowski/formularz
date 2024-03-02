@@ -30,6 +30,7 @@ public class FormPanel extends JPanel implements ActionListener {
     CustomTextField email;
     CustomTextField phoneNumber;
     String[] genders = {"Mężczyzna", "Kobieta", "Wolę nie podawać"};
+    CustomButton cancelButton;
 
     FormPanel() {
         setLayout(new BorderLayout());
@@ -80,10 +81,28 @@ public class FormPanel extends JPanel implements ActionListener {
         email = createText("E-mail",centralPanel);
         phoneNumber = createText("Nr telefonu",centralPanel);
 
-        submitButton = new CustomButton("SUBMIT");
+        submitButton = new CustomButton("ZATWIERDŹ");
         submitButton.setAlignmentX(0.5f);
+        submitButton.setFocusPainted(false);
         bottomPanel.add(submitButton);
         submitButton.addActionListener(this);
+
+        cancelButton = new CustomButton("ANULUJ");
+        cancelButton.setFocusPainted(false);
+        bottomPanel.add(cancelButton);
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Container container = SwingUtilities.getAncestorOfClass(Container.class, FormPanel.this);
+                if (container != null && container.getLayout() instanceof CardLayout) {
+                    CardLayout cardLayout = (CardLayout) container.getLayout();
+                    cardLayout.show(container, "mainPage");
+                }
+            }
+        });
+
+
     }
 
     private CustomTextField createText(String text, JPanel jPanel){
@@ -120,14 +139,14 @@ public class FormPanel extends JPanel implements ActionListener {
             User user = new User(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
             appendToJson(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
         }
+        else {
+            JOptionPane.showMessageDialog(null, "Istnieją pola, które zostały błędnie uzupełnione!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
+        }
 
-        else if (!isBirthMatchingPESEL(birthDate.getText(), PESEL.getText())){
+        if (!isBirthMatchingPESEL(birthDate.getText(), PESEL.getText())){
             JOptionPane.showMessageDialog(null, "Data urodzenia nie zgadza się z numerem PESEL!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
         }
 
-        else {
-            JOptionPane.showMessageDialog(null, "Niektóre pola zostały błędnie uzupełnione!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
-        }
 
     }
 
