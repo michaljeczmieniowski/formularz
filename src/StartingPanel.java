@@ -2,97 +2,96 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class StartingPanel extends JPanel implements ActionListener {
 
     BoxLayout boxLay;
-    CustomButton cb;
-    JPanel UpperPanel;
-    JPanel LowerPanel;
-    JPanel RightPanel;
-    JPanel LeftPanel;
-    JPanel CentralPanel;
-    JTextArea WelcomeText;
-    JTextArea RodoText;
-    JTextArea InformationText;
+    CustomButton registerButton;
+    JPanel upperPanel;
+    JPanel lowerPanel;
+    JPanel rightPanel;
+    JPanel leftPanel;
+    JPanel centralPanel;
+    JTextArea welcomeText;
+    JTextArea rodoText;
+    JTextArea informationText;
 
     public StartingPanel() {
         Color lighter = new Color(248, 237, 228);
         setLayout(new BorderLayout());
 
-        UpperPanel  = new JPanel();
-        LowerPanel = new JPanel();
-        RightPanel = new JPanel();
-        LeftPanel = new JPanel();
-        CentralPanel = new JPanel();
+        upperPanel  = new JPanel();
+        lowerPanel = new JPanel();
+        rightPanel = new JPanel();
+        leftPanel = new JPanel();
+        centralPanel = new JPanel();
 
-        LowerPanel.setBackground(lighter);
-        RightPanel.setBackground(lighter);
-        LeftPanel.setBackground(lighter);
-        CentralPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
-        CentralPanel.setBackground(lighter);
+        lowerPanel.setBackground(lighter);
+        rightPanel.setBackground(lighter);
+        leftPanel.setBackground(lighter);
+        centralPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
+        centralPanel.setBackground(lighter);
 
-        UpperPanel.setPreferredSize(new Dimension(800,100));
-        UpperPanel.setBackground(Color.WHITE);
-        UpperPanel.add(Box.createVerticalStrut(100));
-        LowerPanel.setPreferredSize(new Dimension(800,200));
-        LowerPanel.add(Box.createVerticalStrut(100));
-        RightPanel.setPreferredSize(new Dimension(65,700));
-        LeftPanel.setPreferredSize(new Dimension(65,700));
-        CentralPanel.setPreferredSize(new Dimension(670,500));
+        upperPanel.setPreferredSize(new Dimension(800,100));
+        upperPanel.setBackground(Color.WHITE);
+        upperPanel.add(Box.createVerticalStrut(100));
+        lowerPanel.setPreferredSize(new Dimension(800,200));
+        lowerPanel.add(Box.createVerticalStrut(100));
+        rightPanel.setPreferredSize(new Dimension(65,700));
+        leftPanel.setPreferredSize(new Dimension(65,700));
+        centralPanel.setPreferredSize(new Dimension(670,500));
 
-        boxLay = new BoxLayout(CentralPanel,BoxLayout.Y_AXIS);
-        CentralPanel.setLayout(boxLay);
-        CentralPanel.add(Box.createVerticalStrut(30));
+        boxLay = new BoxLayout(centralPanel,BoxLayout.Y_AXIS);
+        centralPanel.setLayout(boxLay);
+        centralPanel.add(Box.createVerticalStrut(30));
 
-        add(LeftPanel, BorderLayout.EAST);
-        add(UpperPanel, BorderLayout.NORTH);
-        add(CentralPanel, BorderLayout.CENTER);
-        add(LowerPanel, BorderLayout.SOUTH);
-        add(RightPanel, BorderLayout.WEST);
+        add(leftPanel, BorderLayout.EAST);
+        add(upperPanel, BorderLayout.NORTH);
+        add(centralPanel, BorderLayout.CENTER);
+        add(lowerPanel, BorderLayout.SOUTH);
+        add(rightPanel, BorderLayout.WEST);
 
-        WelcomeText = new JTextArea();
-        WelcomeText.setText("Witaj!");
-        WelcomeText.setFont(new Font("Bauhaus 93",Font.BOLD,72));
+        welcomeText = new JTextArea();
+        welcomeText.setText("Witaj!");
+        welcomeText.setFont(new Font("Bauhaus 93",Font.BOLD,72));
 
-        WelcomeText.setEditable(false);
-        WelcomeText.setFocusable(false);
-        WelcomeText.setWrapStyleWord(true);
-        WelcomeText.setOpaque(false);
+        welcomeText.setEditable(false);
+        welcomeText.setFocusable(false);
+        welcomeText.setWrapStyleWord(true);
+        welcomeText.setOpaque(false);
 
-        InformationText = new JTextArea();
-        InformationText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        informationText = new JTextArea();
+        informationText.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        InformationText.setBackground(lighter);
-        InformationText.setText("Jeśli chcesz wypełnić formularz, wciśnij przycisk ZAREJESTRUJ SIĘ");
-        InformationText.setLineWrap(true);
-        InformationText.setWrapStyleWord(true);
-        InformationText.setEditable(false);
-        InformationText.setFocusable(false);
-        InformationText.setFont(new Font("Calibri",Font.BOLD,27));
-        InformationText.setOpaque(true);
+        informationText.setBackground(lighter);
+        informationText.setText("Jeśli chcesz wypełnić formularz, wciśnij przycisk ZAREJESTRUJ SIĘ");
+        informationText.setLineWrap(true);
+        informationText.setWrapStyleWord(true);
+        informationText.setEditable(false);
+        informationText.setFocusable(false);
+        informationText.setFont(new Font("Calibri",Font.BOLD,27));
+        informationText.setOpaque(true);
 
-        RodoText = new JTextArea();
-        RodoText.setBackground(lighter);
-        RodoText.setText("Wcisnięcie przycisku ZAREJESTRUJ SIĘ jest równoznaczne z wyrażeniem zgody na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r.");
-        RodoText.setLineWrap(true);
-        RodoText.setWrapStyleWord(true);
-        RodoText.setEditable(false);
-        RodoText.setFocusable(false);
-        RodoText.setFont(new Font("Calibri",Font.BOLD,14));
-        RodoText.setOpaque(true);
+        rodoText = new JTextArea();
+        rodoText.setBackground(lighter);
+        rodoText.setText("Wcisnięcie przycisku ZAREJESTRUJ SIĘ jest równoznaczne z wyrażeniem zgody na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r.");
+        rodoText.setLineWrap(true);
+        rodoText.setWrapStyleWord(true);
+        rodoText.setEditable(false);
+        rodoText.setFocusable(false);
+        rodoText.setFont(new Font("Calibri",Font.BOLD,14));
+        rodoText.setOpaque(true);
 
-        UpperPanel.add(WelcomeText);
-        CentralPanel.add(InformationText);
-        CentralPanel.add(RodoText);
+        upperPanel.add(welcomeText);
+        centralPanel.add(informationText);
+        centralPanel.add(rodoText);
 
-        cb = new CustomButton("ZAREJESTRUJ SIĘ");
-        cb.setFocusPainted(false);
-        cb.addActionListener(this);
-        cb.setMargin(new Insets(50,50,50,50));
-        cb.setFont(new Font("SansSerif",Font.BOLD,30));
-        LowerPanel.add(cb);
+        registerButton = new CustomButton("ZAREJESTRUJ SIĘ");
+        registerButton.setFocusPainted(false);
+        registerButton.addActionListener(this);
+        registerButton.setMargin(new Insets(50,50,50,50));
+        registerButton.setFont(new Font("SansSerif",Font.BOLD,30));
+        lowerPanel.add(registerButton);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
