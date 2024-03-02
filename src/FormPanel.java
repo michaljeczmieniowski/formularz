@@ -1,16 +1,7 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class FormPanel extends JPanel implements ActionListener {
 
@@ -30,6 +21,7 @@ public class FormPanel extends JPanel implements ActionListener {
     CustomTextField email;
     CustomTextField phoneNumber;
     String[] genders = {"Mężczyzna", "Kobieta", "Wolę nie podawać"};
+    JSONFileWriter jsonFileWriter = new JSONFileWriter();
 
     FormPanel() {
         setLayout(new BorderLayout());
@@ -110,82 +102,29 @@ public class FormPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Container container = SwingUtilities.getAncestorOfClass(Container.class, this);
 
-        if (isBirthMatchingPESEL(birthDate.getText(), PESEL.getText()) &&
+        if (birthDate.isBirthMatchingPESEL(PESEL) &&
                 container != null && container.getLayout() instanceof CardLayout &&
                 name.hasCorrectInput() && surname.hasCorrectInput() && PESEL.hasCorrectInput() &&
                 birthDate.hasCorrectInput() && email.hasCorrectInput() && phoneNumber.hasCorrectInput()){
             JOptionPane.showMessageDialog(null, "Pomyślnie zarejestrowano!", "Rejestracja zatwierdzona", JOptionPane.INFORMATION_MESSAGE);
             CardLayout cardLayout = (CardLayout) container.getLayout();
             cardLayout.show(container, "mainPage");
-            User user = new User(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
-            appendToJson(name.getText(), surname.getText(), Long.parseLong(PESEL.getText()), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
-        }
-
-        else if (!isBirthMatchingPESEL(birthDate.getText(), PESEL.getText())){
-            JOptionPane.showMessageDialog(null, "Data urodzenia nie zgadza się z numerem PESEL!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
+            User user = new User(name.getText(), surname.getText(), PESEL.getText(), birthDate.getText(), email.getText(), Integer.parseInt(phoneNumber.getText()), genderList.getSelectedItem().toString());
+            jsonFileWriter.appendToJson(user);
+            clearForm();
         }
 
         else {
             JOptionPane.showMessageDialog(null, "Niektóre pola zostały błędnie uzupełnione!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
-    public void appendToJson(String imie, String nazwisko, long PESEL, String dataUrodzenia, String email, int nrTelefonu, String plec) {
-        JSONObject userData = new JSONObject();
-        userData.put("Imię", imie);
-        userData.put("Nazwisko", nazwisko);
-        userData.put("PESEL", PESEL);
-        userData.put("Płeć", plec);
-        userData.put("Data urodzenia", dataUrodzenia);
-        userData.put("Adres e-mail", email);
-        userData.put("Numer telefonu", nrTelefonu);
-
-        JSONArray usersList = new JSONArray();
-
-        try {
-            FileReader fileReader = new FileReader("userData\\UsersData.json");
-            JSONParser jsonParser = new JSONParser();
-            Object obj = jsonParser.parse(fileReader);
-            if (obj != null) {
-                usersList = (JSONArray) obj;
-            }
-            fileReader.close();
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject userWrapper = new JSONObject();
-        int userNumber = usersList.size() + 1;
-        String userKey = "User" + userNumber;
-        userWrapper.put(userKey, userData);
-
-        usersList.add(userWrapper);
-
-        try (FileWriter file = new FileWriter("userData\\UsersData.json", false)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonOutput = gson.toJson(usersList);
-            file.write(jsonOutput);
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean isBirthMatchingPESEL(String birthDate, String PESEL){
-        String firstDigitOfYear = birthDate.substring(0,1);
-        switch (firstDigitOfYear){
-            case "1":
-                if (birthDate.substring(5,7).equals(PESEL.substring(2,4)) & birthDate.substring(8).equals(PESEL.substring(4,6))) {
-                    return true;
-                }
-                break;
-            case "2":
-                int monthDigits = Integer.parseInt(birthDate.substring(5,7)) + 20;
-                if (String.valueOf(monthDigits).equals(PESEL.substring(2,4)) & birthDate.substring(8).equals(PESEL.substring(4,6))) {
-                    return true;
-                }
-        }
-        return false;
+    private void clearForm(){
+        name.setText("Imię");
+        surname.setText("Nazwisko");
+        PESEL.setText("PESEL");
+        birthDate.setText("Data urodzenia");
+        email.setText("E-mail");
+        phoneNumber.setText("Nr telefonu");
     }
 }
