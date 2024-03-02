@@ -26,7 +26,7 @@ public class CustomTextField extends JTextField {
 
             @Override
             public void focusLost(FocusEvent e) {
-                if(getText().equals("")){
+                if(getText().isEmpty()){
                     setText(text);
                 }
                 switch (text){
@@ -55,7 +55,7 @@ public class CustomTextField extends JTextField {
                         }
                         break;
                     case "PESEL":
-                        if (getText().matches("\\d+") & getText().length()==11 & checkPESEL(getText())){
+                        if (getText().matches("\\d+") && getText().length()==11 && checkPESEL(getText())){
                             setForeground(Color.BLACK);
                         }
                         else {
@@ -71,7 +71,7 @@ public class CustomTextField extends JTextField {
                         }
                         break;
                     case "Nr telefonu":
-                        if (getText().matches("\\d+") & getText().length()==9){
+                        if (getText().matches("\\d+") && getText().length()==9){
                             setForeground(Color.BLACK);
                         }
                         else {
@@ -125,8 +125,37 @@ public class CustomTextField extends JTextField {
 
     boolean hasCorrectInput(){
         if(getForeground()==Color.RED || getText().equals(inputText)){
+            setForeground(Color.RED);
             return false;
         }
+        setForeground(Color.BLACK);
         return true;
+    }
+
+    boolean isBirthMatchingPESEL(CustomTextField PESELComponent){
+        String firstDigitOfYear = getText().substring(0,1);
+        String PESEL = PESELComponent.getText();
+
+        switch (firstDigitOfYear){
+            case "1":
+                if (getText().substring(2,4).equals(PESEL.substring(0,2)) &&
+                        getText().substring(5,7).equals(PESEL.substring(2,4)) &&
+                        getText().substring(8).equals(PESEL.substring(4,6))) {
+                    return true;
+                }
+                break;
+            case "2":
+                int monthDigits = Integer.parseInt(getText().substring(5,7)) + 20;
+
+                if (getText().substring(2,4).equals(PESEL.substring(0,2)) &&
+                        String.valueOf(monthDigits).equals(PESEL.substring(2,4)) &&
+                        getText().substring(8).equals(PESEL.substring(4,6))) {
+                    return true;
+                }
+        }
+        setForeground(Color.RED);
+        PESELComponent.setForeground(Color.RED);
+        JOptionPane.showMessageDialog(null, "Data urodzenia nie zgadza się z numerem PESEL!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
+        return false;
     }
 }
