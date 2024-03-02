@@ -1,7 +1,16 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class FormPanel extends JPanel implements ActionListener {
 
@@ -22,6 +31,7 @@ public class FormPanel extends JPanel implements ActionListener {
     CustomTextField phoneNumber;
     String[] genders = {"Mężczyzna", "Kobieta", "Wolę nie podawać"};
     JSONFileWriter jsonFileWriter = new JSONFileWriter();
+    CustomButton cancelButton;
 
     FormPanel() {
         setLayout(new BorderLayout());
@@ -72,10 +82,28 @@ public class FormPanel extends JPanel implements ActionListener {
         email = createText("E-mail",centralPanel);
         phoneNumber = createText("Nr telefonu",centralPanel);
 
-        submitButton = new CustomButton("SUBMIT");
+        submitButton = new CustomButton("ZATWIERDŹ");
         submitButton.setAlignmentX(0.5f);
+        submitButton.setFocusPainted(false);
         bottomPanel.add(submitButton);
         submitButton.addActionListener(this);
+
+        cancelButton = new CustomButton("ANULUJ");
+        cancelButton.setFocusPainted(false);
+        bottomPanel.add(cancelButton);
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Container container = SwingUtilities.getAncestorOfClass(Container.class, FormPanel.this);
+                if (container != null && container.getLayout() instanceof CardLayout) {
+                    CardLayout cardLayout = (CardLayout) container.getLayout();
+                    cardLayout.show(container, "mainPage");
+                }
+            }
+        });
+
+
     }
 
     private CustomTextField createText(String text, JPanel jPanel){
@@ -115,7 +143,7 @@ public class FormPanel extends JPanel implements ActionListener {
         }
 
         else {
-            JOptionPane.showMessageDialog(null, "Niektóre pola zostały błędnie uzupełnione!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Istnieją pola, które zostały błędnie uzupełnione!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
         }
     }
 
