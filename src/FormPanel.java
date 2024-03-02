@@ -1,16 +1,7 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class FormPanel extends JPanel implements ActionListener {
 
@@ -32,23 +23,27 @@ public class FormPanel extends JPanel implements ActionListener {
     String[] genders = {"Mężczyzna", "Kobieta", "Wolę nie podawać"};
     JSONFileWriter jsonFileWriter = new JSONFileWriter();
     CustomButton cancelButton;
+    Color darker = new Color(241, 202, 169);
 
     FormPanel() {
         setLayout(new BorderLayout());
+        Color lighter = new Color(248, 237, 228);
 
         centralPanel = new JPanel();
         leftPanel = new JPanel();
         rightPanel = new JPanel();
         bottomPanel = new JPanel();
 
-        bottomPanel.setBackground(new Color(0xF7A543));
-        centralPanel.setBackground(new Color(0xDC946E));
-        leftPanel.setBackground(Color.CYAN);
+        bottomPanel.setBackground(darker);
+        centralPanel.setBackground(lighter);
+        leftPanel.setBackground(Color.WHITE);
+        rightPanel.setBackground(Color.WHITE);
 
         centralPanel.setPreferredSize(new Dimension(600,600));
         leftPanel.setPreferredSize(new Dimension(100,600));
         rightPanel.setPreferredSize(new Dimension(100,600));
-        bottomPanel.setPreferredSize(new Dimension(800,35));
+        bottomPanel.setPreferredSize(new Dimension(800,60));
+        bottomPanel.add(Box.createVerticalStrut(50));
 
         add(centralPanel, BorderLayout.CENTER);
         add(leftPanel, BorderLayout.WEST);
@@ -68,7 +63,7 @@ public class FormPanel extends JPanel implements ActionListener {
         textPanel.setAlignmentX(0.5f);
         textPanel.setMaximumSize(new Dimension(400,20));
         centralPanel.add(Box.createVerticalStrut(5));
-        textPanel.setBackground(Color.PINK);
+        textPanel.setBackground(darker);
         textPanel.setOpaque(true);
         centralPanel.add(textPanel);
         textPanel.add(textLabel);
@@ -86,6 +81,7 @@ public class FormPanel extends JPanel implements ActionListener {
         submitButton.setAlignmentX(0.5f);
         submitButton.setFocusPainted(false);
         bottomPanel.add(submitButton);
+        bottomPanel.add(Box.createHorizontalStrut(40));
         submitButton.addActionListener(this);
 
         cancelButton = new CustomButton("ANULUJ");
@@ -95,15 +91,23 @@ public class FormPanel extends JPanel implements ActionListener {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Container container = SwingUtilities.getAncestorOfClass(Container.class, FormPanel.this);
-                if (container != null && container.getLayout() instanceof CardLayout) {
-                    CardLayout cardLayout = (CardLayout) container.getLayout();
-                    cardLayout.show(container, "mainPage");
+                int choice = JOptionPane.showOptionDialog(null,
+                        "Anulowanie rejestracji wiąże się z utratą wprowadzonych danych. Czy na pewno chcesz przerwać?",
+                        "Anulowanie rejestracji",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null, new String[]{"TAK", "NIE"}, null);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    Container container = SwingUtilities.getAncestorOfClass(Container.class, FormPanel.this);
+                    if (container != null && container.getLayout() instanceof CardLayout) {
+                        CardLayout cardLayout = (CardLayout) container.getLayout();
+                        cardLayout.show(container, "mainPage");
+                    }
+                    clearForm();
                 }
             }
         });
-
-
     }
 
     private CustomTextField createText(String text, JPanel jPanel){
@@ -116,7 +120,7 @@ public class FormPanel extends JPanel implements ActionListener {
         textPanel.setAlignmentX(0.5f);
         textPanel.setMaximumSize(new Dimension(400,20));
         jPanel.add(Box.createVerticalStrut(5));
-        textPanel.setBackground(Color.PINK);
+        textPanel.setBackground(darker);
         textPanel.setOpaque(true);
 
         jPanel.add(textPanel);
