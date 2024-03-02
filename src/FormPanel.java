@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*
+    Borowy
+    Żochowska
+    Jęczmieniowski
+ */
+
 public class FormPanel extends JPanel implements ActionListener {
 
     BoxLayout boxLay;
@@ -153,10 +159,16 @@ public class FormPanel extends JPanel implements ActionListener {
 
     private void clearForm(){
         name.setText("Imię");
+        name.setForeground(Color.BLACK);
         surname.setText("Nazwisko");
+        surname.setForeground(Color.BLACK);
         PESEL.setText("PESEL");
+        PESEL.setForeground(Color.BLACK);
         birthDate.setText("Data urodzenia");
+        birthDate.setForeground(Color.BLACK);
         email.setText("E-mail");
+        email.setForeground(Color.BLACK);
         phoneNumber.setText("Nr telefonu");
+        phoneNumber.setForeground(Color.BLACK);
     }
 }

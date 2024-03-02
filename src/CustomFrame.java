@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/*
+    Borowy
+    Żochowska
+    Jęczmieniowski
+ */
+
 public class CustomFrame extends JFrame {
     CardLayout cards;
     StartingPanel mainPage;
