@@ -1,3 +1,9 @@
+/*
+    Borowy
+    Żochowska
+    Jęczmieniowski
+ */
+
 public class User {
 
     private final String name;

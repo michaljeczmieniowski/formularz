@@ -6,6 +6,12 @@ import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
+/*
+    Borowy
+    Żochowska
+    Jęczmieniowski
+ */
+
 public class CustomButton extends JButton implements ActionListener{
     private Color color1 = Color.decode("#ff7e5f");
     private Color color2 = Color.decode("#feb47b");

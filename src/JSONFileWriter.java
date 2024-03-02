@@ -9,6 +9,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/*
+    Borowy
+    Żochowska
+    Jęczmieniowski
+ */
+
 public class JSONFileWriter {
 
     public void appendToJson(User user) {

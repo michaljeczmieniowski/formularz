@@ -6,6 +6,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+    Borowy
+    Żochowska
+    Jęczmieniowski
+ */
+
 public class CustomTextField extends JTextField {
     String inputText;
 
