@@ -37,11 +37,8 @@ public class CustomTextField extends JTextField {
                 }
                 switch (text){
                     case "Imię":
-                        if (getText().matches("[A-ZŁŚŻ][a-ząćęłńóśźż]+")){
-                            setForeground(Color.BLACK);
-                        }
-                        else if (getText().matches("[a-złśż][a-ząćęłńóśźż]+")){
-                            setText(getText().substring(0,1).toUpperCase() + getText().substring(1));
+                        if (getText().matches("[A-ZŁŚŻa-ząćęłńóśźż]+")){
+                            setText(getText().substring(0,1).toUpperCase() + getText().substring(1).toLowerCase());
                             setForeground(Color.BLACK);
                         }
                         else{
@@ -49,11 +46,8 @@ public class CustomTextField extends JTextField {
                         }
                         break;
                     case "Nazwisko":
-                        if (getText().matches("[A-ZŁŚŻŹĆÓ][a-ząćęłńóśźż]+")){
-                            setForeground(Color.BLACK);
-                        }
-                        else if (getText().matches("[a-złśżźćó][a-ząćęłńóśźż]+")){
-                            setText(getText().substring(0,1).toUpperCase() + getText().substring(1));
+                        if (getText().matches("[A-ZŁŚŻŹĆÓ\\-a-ząćęłńóśźż]+")){
+                            doubleSurname();
                             setForeground(Color.BLACK);
                         }
                         else{
@@ -79,6 +73,7 @@ public class CustomTextField extends JTextField {
                     case "Nr telefonu":
                         if (getText().matches("\\d+") && getText().length()==9){
                             setForeground(Color.BLACK);
+                            phoneNumberCheck();
                         }
                         else {
                             setForeground(Color.RED);
@@ -163,5 +158,23 @@ public class CustomTextField extends JTextField {
         PESELComponent.setForeground(Color.RED);
         JOptionPane.showMessageDialog(null, "Data urodzenia nie zgadza się z numerem PESEL!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
         return false;
+    }
+
+    void doubleSurname(){
+        String[] splittedString = getText().split("-");
+
+        if (splittedString.length == 2){
+            setText(Character.toUpperCase(splittedString[0].charAt(0)) + splittedString[0].substring(1) + "-" + Character.toUpperCase(splittedString[1].charAt(0)) + splittedString[1].substring(1));
+        }
+        else {
+            setText(getText().substring(0,1).toUpperCase() + getText().substring(1).toLowerCase());
+        }
+    }
+
+    void phoneNumberCheck(){
+        if (getText().substring(0,1).equals("0")){
+            setForeground(Color.RED);
+            JOptionPane.showMessageDialog(null, "Podany numer telefonu nie istnieje!", "Rejestracja odrzucona", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
