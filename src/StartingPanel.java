@@ -70,7 +70,7 @@ public class StartingPanel extends JPanel implements ActionListener {
         informationText.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         informationText.setBackground(lighter);
-        informationText.setText("Jeśli chcesz wypełnić formularz, wciśnij przycisk ZAREJESTRUJ SIĘ");
+        informationText.setText("         Jeśli chcesz wypełnić formularz, wciśnij przycisk                                                  ZAREJESTRUJ SIĘ");
         informationText.setLineWrap(true);
         informationText.setWrapStyleWord(true);
         informationText.setEditable(false);

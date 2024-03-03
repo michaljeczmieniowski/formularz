@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,14 +31,17 @@ public class JSONFileWriter {
         JSONArray usersList = new JSONArray();
 
         try {
-            FileReader fileReader = new FileReader("userData\\UsersData.json");
+            FileReader fileReader = new FileReader("UsersData.json");
             JSONParser jsonParser = new JSONParser();
             Object obj = jsonParser.parse(fileReader);
             if (obj != null) {
                 usersList = (JSONArray) obj;
             }
             fileReader.close();
-        } catch (IOException | ParseException e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("Utworzono plik UsersData");
+        }
+        catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
@@ -48,12 +52,15 @@ public class JSONFileWriter {
 
         usersList.add(userWrapper);
 
-        try (FileWriter file = new FileWriter("userData\\UsersData.json", false)) {
+        try (FileWriter file = new FileWriter("UsersData.json", false)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonOutput = gson.toJson(usersList);
             file.write(jsonOutput);
             file.flush();
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("Tworzę plik UsersData...");
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
